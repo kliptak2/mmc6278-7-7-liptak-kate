@@ -1,43 +1,93 @@
 // Your code here
 var questionsArr = [
     {
-        question: "1",
-        answer: "",
+        question: "Which of these states doesn't have a 'panhandle'?",
+        answer: "Ohio",
         options: [
-            "A",
-            "B",
-            "C",
-            "D",
+            "Florida",
+            "Oklahoma",
+            "Ohio",
+            "Texas",
         ]
       },
       {
-        question: "2",
-        answer: true
+        question: "Which one of these Presidents is carved on Mount Rushmore?",
+        answer: "Theodore Roosevelt",
+        options: [
+            "Grover Cleveland",
+            "James Madison",
+            "Franklin D. Roosevelt",
+            "Theodore Roosevelt",
+        ]
       },
       {
-        question: "3",
-        answer: true
+        question: "Does any part of the Rocky Mountains touch California?",
+        answer: "No",
+        options: [
+            "Yes",
+            "No",
+        ]
       },
       {
-        question: "4",
-        answer: true
+        question: "Which of these states is farthest south?",
+        answer: "Texas",
+        options [
+            "California",
+            "Ohio",
+            "Texas",
+            "Wyoming",
+        ]
       },
       {
-        question: "5",
-        answer: true
+        question: "Which of these states appears rectangular on maps?",
+        answer: "Colorado",
+        options: [
+            "Colorado",
+            "Georgia",
+            "Minnesota",
+            "West Virginia",
+        ]
       },
 ]
 var button = document.createElement("button");
 var prevScore = localStorage.getItem("prevScore")
 var noScore = "0"
+var timerId = ""
 
 /*
 PSEUDOCODE
 Create <p>, <div>, and buttons inside <div id="quiz"></div>. Use button onclick?
 
 Create a runQuiz function
+function runQuiz()
+{
+  let correct = 0
+  let incorrect = 0
 
-Set timer
+  for (let i = 0; i < questionsArr.length; i++)
+    {
+     let answerFromUI = confirm(questionsArr[i].question)
+
+     if(answerFromUI == questionsArr[i].answer)
+     {
+      correct ++
+     }
+     else
+     {
+         incorrect ++
+     }
+ };
+
+ let answerPercentage = 0.00
+
+ answerPercentage = correct / (incorrect + correct) * 100
+ alert("Congratulations, you got a " + Math.round(answerPercentage).toString() + '%')
+}
+
+function startTimer (onSubmit "start quiz")
+function stopTimer()
+    clearInterval(timerID)
+    countEl.textContent = ""
 
 Capture user inputs
 
@@ -47,7 +97,9 @@ Calculate score
 
 Store score with localStorage.setItem("prevScore", value)
 
+
 Make function to reset game
+If prevScore is in local storage, display it
 */
 
 // TO DO
