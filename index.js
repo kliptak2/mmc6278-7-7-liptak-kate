@@ -31,7 +31,7 @@ var questionsArr = [
       {
         question: "Which of these states is farthest south?",
         answer: "Texas",
-        options [
+        options: [
             "California",
             "Ohio",
             "Texas",
@@ -49,68 +49,124 @@ var questionsArr = [
         ]
       },
 ]
-var button = document.createElement("button");
-var prevScore = localStorage.getItem("prevScore")
-var noScore = "0"
+
+// Global variables
+var startBtn = document.createElement("button");
+var quizDiv = document.getElementById("quiz")
 var timerId = ""
+var index = 0
+Question = null
+Correct = 0
+// Don’t need to keep track of incorrects. Just corrects / array length.
+// For (i=0; i<arr.length; i++) {
+
+// }
 
 /*
 PSEUDOCODE
-Create <p>, <div>, and buttons inside <div id="quiz"></div>. Use button onclick?
 
-Create a runQuiz function
-function runQuiz()
-{
-  let correct = 0
-  let incorrect = 0
+*Can’t use loops for this assignment bc can’t stop them w/o using alert, confirm, prompt
+*You should be able to go to the next question with a click or a timeout. So on Page you'll cycle through the data
+*setInterval => do something every set amount of time until the interval is canceled
+*setTimeout=> wait a set amount of time then do something once
 
-  for (let i = 0; i < questionsArr.length; i++)
-    {
-     let answerFromUI = confirm(questionsArr[i].question)
 
-     if(answerFromUI == questionsArr[i].answer)
-     {
-      correct ++
-     }
-     else
-     {
-         incorrect ++
-     }
- };
+//Global variables
+Div = the quiz div
+timerId = “”
+Index = 0
+Question = null
+startBtn = null
+Correct = 0
 
- let answerPercentage = 0.00
 
- answerPercentage = correct / (incorrect + correct) * 100
- alert("Congratulations, you got a " + Math.round(answerPercentage).toString() + '%')
+//Simulate loop
+Global variable for index
+Index = 0
+currentQuestion = null
+Function for timer runout: index++
+Function for user clicked on an answer: index++ -> handleNewQuestion()
+
+startGame = () => {
+try to find prev score
+if yes display
+make button
+button will start game
+Add button (and maybe previous score) to screen
+	element.replaceChildren(prevScore, button)
+	//create empty <p> tag to maybe put previous score in
+	//Get “previous-score” from localStorage
+	//if you get a real value for “previous-score” put it in <p> tag
+	//Create your start button document.createElement(“button”)
+	//startBtn.onclick = handleNewQuestion
+	//quiz.replaceChildren(prevScore, button)
 }
 
-function startTimer (onSubmit "start quiz")
-function stopTimer()
-    clearInterval(timerID)
-    countEl.textContent = ""
+handleNewQuestion = () => {
+	//Check if game is over before trying to get next question
+	//if index === 0
+//set previousScore <p> tag innerHtml = “” even if it already was empty
+	//quiz.removeChild(startBtn)
+	//is our index >= length of the questions arr
+//if the index is not possible, end the game gameOver()
+	question = questionsArr[index]
+	setQuizHtml()
+createCountdown()
+}
 
-Capture user inputs
+setQuizHtml = () => {
+	<div id=”quiz”>
+		<p>{question.question}</p>
+<div id=”innerDiv”>
+<button value={option1}>Option 1</button>
+<button value={option2}>Option 2</button>
+<button value={option3}>Option 3</button>
+<button value={option4}>Option 4</button>
+</div>
+<p id=”timer”>{time}</p>
+</div>
+//document.createElement(“p”) with question.question as innerHTML
+//document.createElement(“div) with id of “innerDiv”
+//Loop over options: for each option let btn = document.createElement(“button”) 
+//btn.value = <option>           (this is hidden)
+//btn.innerHtml = <option>   (this will be seen)
+//btn.onclick = handleAnswer
+//innerDiv.append(btn)
+//Once all buttons are created and appended to innerDiv, document.createElement(“p”) with id=”timer”
+//quiz.replaceChildren(question, innerDiv, timer)
+}
 
-preventDefault()
+createCountdown = () => {
+	//let secondsRemaining = 30
+	//Get the <p> element we just created that will hold the current timer value and set it to 30
+	//timerId = setInterval(()=>{
+		//secondsRemaining- - 
+		//timer.innerHtml = secondsRemaining
+		//Check if secondsRemaining === 0, if yes handleTimerRunout()
+	}, 1000)
+}
 
-Calculate score
+handleTimerRunout = () => {
+	//Clear the current interval
+	//update the global question index
+	//handleNewQuestion()
+}
 
-Store score with localStorage.setItem("prevScore", value)
+handleAnswer = (e) => {
+	//get e.target.value
+	//compare e.target.value to question.answer
+	//update correct if the user picked the right answer
+	//Clear the interval
+	//update the global question index
+	//handleNewQuestion()
+}
+
+gameOver = () => {
+//Calculate score (correct/questionsArr.length *100)
+//Set score in localStorage as “previous-score”
+//reset correct and index to 0
+//startGame()
+}
 
 
-Make function to reset game
-If prevScore is in local storage, display it
 */
-
-// TO DO
-// When the page loads, if the user has never played the game before, the game should display a "start quiz" button. The button MUST have an id attribute of "start-quiz"
-
-// If the user has taken the quiz before, the app should display the previous score
-
-// After starting the quiz, your program should select the first question in questionsArr and display the question as well as the possible choices (figure 3). The quiz should also display a timer that counts down from 30 one second at a time (figure 3.1). Please use JavaScript's setInterval and clearInterval methods to create the timer
-
-// Selecting one of the options or running out of time should cause the app to immediately cycle to the next question and set of choices in questionsArr. There should be no messaging or feedback displayed to the user after making a selection or running out of time
-
-// After the last question is answered or time runs out, the game should display the "start quiz" button along with a score that is calculated from the amount of correctly answered questions divided by the total number of questions. This number should be rounded to the nearest whole number
-
-//To persist score data between games, the application should use the JavaScript localStorage API to store the user's most recent score under the key previous-score after each game and retrieve the score on page load. This means that if the user navigates away from the page and then later returns to the site, their previous score information should still be displayed.
