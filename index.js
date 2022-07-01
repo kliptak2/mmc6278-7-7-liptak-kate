@@ -58,7 +58,7 @@ var questionsArr = [
             "West Virginia",
         ]
       },
-]
+];
 
 //Simulate loop through quiz questions
 // Global variable for index - up top
@@ -75,7 +75,7 @@ var generateQuestion = function (index){
     var question = questionsArr[index];
     buildQuizHTML(question);
     startCountdown(30);
-}
+};
 
 //Start game
 function startGame() {
@@ -91,7 +91,7 @@ function startGame() {
         //Create your start button document.createElement(“button”)
         //startBtn.onclick = handleNewQuestion
         //quiz.replaceChildren(prevScore, button)
-}
+};
     
 function handleNewQuestion() {
     //Check if game is over before trying to get next question
@@ -103,7 +103,7 @@ function handleNewQuestion() {
 //     question = questionsArr[index]
 //     setQuizHtml()
 // createCountdown()
-}
+};
     
 function buildQuizHtml() {
     var p = document.createElement(“p”);   //document.createElement(“p”) with question.question as innerHTML
@@ -113,38 +113,41 @@ function buildQuizHtml() {
 
     //Loop over options: for each option let btn = document.createElement(“button”)
     var btn = document.createElement("button"); 
-    btn.value = option;              //btn.value = <option> (this is hidden)
-    btn.innerHTML = option;          //btn.innerHtml = <option> (this will be seen)
-    btn.onclick = handleAnswer();    //btn.onclick = handleAnswer
-    innerDiv.append(btn);            //innerDiv.append(btn)
-    //Once all buttons are created and appended to innerDiv, document.createElement(“p”) with id=”timer”
+    btn.value = option;                          //btn.value = <option> (this is hidden)
+    btn.innerHTML = option;                      //btn.innerHtml = <option> (this will be seen)
+    btn.onclick = handleAnswer();                //btn.onclick = handleAnswer
+    innerDiv.append(btn);                        //innerDiv.append(btn)
+    var timerEl = document.createElement("p");   //Once all buttons are created and appended to innerDiv, document.createElement(“p”) with id=”timer”
+    timerEl.id = timer
     //quiz.replaceChildren(question, innerDiv, timer)
-}
+};
     
 function startCountdown() {
-    var secondsRemaining = 30
-    //Get the <p> element we just created that will hold the current timer value and set it to 30
-    //timerId = setInterval(()=>{
-        //secondsRemaining- - 
-        //timer.innerHtml = secondsRemaining
-        //Check if secondsRemaining === 0, if yes handleTimerRunout()
-    // }, 1000)
-}
+    var secondsRemaining = 30;               //let secondsRemaining = 30
+    timer = getElementById("timer");         //Get the <p> element we just created that will hold the current timer value and set it to 30
+    timerId = setInterval(() {                //timerId = setInterval(()=>{
+        secondsRemaining--;                  //secondsRemaining --
+        timer.innerHtml = secondsRemaining   //timer.innerHtml = secondsRemaining
+        if (secondsRemaining === 0){         //Check if secondsRemaining === 0, if yes handleTimerRunout()
+            timerRunout();
+        }
+    }, 1000);                                // }, 1000)
+};
     
 function timerRunout() {
     clearInterval();     //what interval?
     //update the global question index
     handleNewQuestion();
-}
+};
     
 function handleAnswer(e) {
-    if (e.target.value === questionsArr[questionIndex].answer){     //compare e.target.value to question.answer
-        correct++;                                                  //update correct if the user picked the right answer
+    if (e.target.value === questionsArr[questionIndex].answer){   //compare e.target.value to question.answer
+        correct++;                                                //update correct if the user picked the right answer
     }
     clearInterval(); //what interval?
     //update the global question index
-    handleNewQuestion();                                           //call handleNewQuestion function
-}
+    handleNewQuestion();                                          //call handleNewQuestion function
+};
 
 function endGame() {
     var score = Math.round((correct/questionsArr.length) * 100);
