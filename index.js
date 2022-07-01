@@ -3,9 +3,11 @@
 // Global variables
 var quizDiv = document.getElementById("quiz");
 var timerId = "";
+var interval = null;
+var index = 0;
 var currentQuestion = null;
 var startBtn = null;
-var correct = 0;     // Don’t need to keep track of incorrects. Just corrects/questionsArr.length
+var correct = 0;             // Don’t need to keep track of incorrects. Just corrects/questionsArr.length
 var questionIndex = 0;
 var questionsArr = [
     {
@@ -58,20 +60,27 @@ var questionsArr = [
       },
 ]
 
-//Loop through quiz questions
+//Simulate loop through quiz questions
+// Global variable for index - up top
+// Index = 0 - up top
+// currentQuestion = null - up top
+// Function for timer runout: index++
+// Function for user clicked on an answer: index++ -> handleNewQuestion()
+
 var generateQuestion = function (index){
     if (index >= questionsArr.length){
         endGame();
         return;
     }
     var question = questionsArr[index];
-    quizHTML(question);
+    buildQuizHTML(question);
     startCountdown(30);
 }
 
+//Start game
 function startGame() {
     // try to find prev score
-    // if yes display
+    // if yes display it
     // make button
     // button will start game
     // Add button (and maybe previous score) to screen
@@ -96,7 +105,7 @@ function handleNewQuestion() {
 // createCountdown()
 }
     
-function quizHtml() {
+function buildQuizHtml() {
     //     <div id=”quiz”>
     //         <p>{question.question}</p>
     // <div id=”innerDiv”>
@@ -119,7 +128,7 @@ function quizHtml() {
 }
     
 function startCountdown() {
-    //let secondsRemaining = 30
+    var secondsRemaining = 30
     //Get the <p> element we just created that will hold the current timer value and set it to 30
     //timerId = setInterval(()=>{
         //secondsRemaining- - 
@@ -129,18 +138,18 @@ function startCountdown() {
 }
     
 function timerRunout() {
-    //Clear the current interval
+    clearInterval();     //what interval?
     //update the global question index
-    //handleNewQuestion()
+    handleNewQuestion();
 }
     
 function handleAnswer(e) {
-    //get e.target.value
-    //compare e.target.value to question.answer
-    //update correct if the user picked the right answer
-    //Clear the interval
+    if (e.target.value === questionsArr[questionIndex].answer){     //compare e.target.value to question.answer
+        correct++;                                                  //update correct if the user picked the right answer
+    }
+    clearInterval(); //what interval?
     //update the global question index
-    //handleNewQuestion()
+    handleNewQuestion();                                           //call handleNewQuestion function
 }
 
 function endGame() {
@@ -154,9 +163,9 @@ function endGame() {
 window.onload = startGame();
 
 /*
-PSEUDOCODE
+NOTES
 *Can’t use loops for this assignment bc can’t stop them w/o using alert, confirm, prompt
-*You should be able to go to the next question with a click or a timeout. So on Page you'll cycle through the data
+*You should be able to go to the next question with a click or a timeout. So on page you'll cycle through the data
 *setInterval => do something every set amount of time until the interval is canceled
-*setTimeout=> wait a set amount of time then do something once
+*setTimeout => wait a set amount of time then do something once
 */
