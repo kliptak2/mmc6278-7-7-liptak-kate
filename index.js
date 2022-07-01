@@ -106,23 +106,17 @@ function handleNewQuestion() {
 }
     
 function buildQuizHtml() {
-    //     <div id=”quiz”>
-    //         <p>{question.question}</p>
-    // <div id=”innerDiv”>
-    // <button value={option1}>Option 1</button>
-    // <button value={option2}>Option 2</button>
-    // <button value={option3}>Option 3</button>
-    // <button value={option4}>Option 4</button>
-    // </div>
-    // <p id=”timer”>{time}</p>
-    // </div>
-    //document.createElement(“p”) with question.question as innerHTML
-    //document.createElement(“div) with id of “innerDiv”
-    //Loop over options: for each option let btn = document.createElement(“button”) 
-    //btn.value = <option>           (this is hidden)
-    //btn.innerHtml = <option>   (this will be seen)
-    //btn.onclick = handleAnswer
-    //innerDiv.append(btn)
+    var p = document.createElement(“p”);   //document.createElement(“p”) with question.question as innerHTML
+    p.innerHTML = question.question;
+    var innerDiv = document.createElement("div");   //document.createElement(“div") with id of “innerDiv”
+    innerDiv.id = "innerDiv";
+
+    //Loop over options: for each option let btn = document.createElement(“button”)
+    var btn = document.createElement("button"); 
+    btn.value = option;              //btn.value = <option> (this is hidden)
+    btn.innerHTML = option;          //btn.innerHtml = <option> (this will be seen)
+    btn.onclick = handleAnswer();    //btn.onclick = handleAnswer
+    innerDiv.append(btn);            //innerDiv.append(btn)
     //Once all buttons are created and appended to innerDiv, document.createElement(“p”) with id=”timer”
     //quiz.replaceChildren(question, innerDiv, timer)
 }
