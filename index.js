@@ -3,11 +3,9 @@
 // Global variables
 var quizDiv = document.getElementById("quiz");
 var intervalId = null;
-var interval = null;
 var index = 0;
 var currentQuestion = null;
-var startBtn = null;
-var correct = 0;             // Don’t need to keep track of incorrects. Just corrects/questionsArr.length
+var correct = 0;                   // Don’t need to keep track of incorrects. Just corrects/questionsArr.length
 var questionIndex = 0;
 var questionsArr = [
     {
@@ -59,9 +57,10 @@ var questionsArr = [
         ]
       },
 ];
+
 //Generate Question
 var generateQuestion = function (index){
-    if (index >= questionsArr.length){
+    if (index >= questionsArr.length){     //if the index position is >= to the length of the array, end the game
         endGame();
         return;
     }
@@ -72,15 +71,15 @@ var generateQuestion = function (index){
 
 //Start game
 function startGame() {
-    var previousScore = localStorage.getItem("previous-score") // try to find prev score
-    var prevScoreEl = document.createElement("p"); //create a place to display it
-    if (previousScore){                            //if prev score exists, display it
+    var previousScore = localStorage.getItem("previous-score")       //try to find prev score
+    var prevScoreEl = document.createElement("p");                   //create a <p> to display it
+    if (previousScore){                                              //if prev score exists, display it
         prevScoreEl.innerHTML = `Previous Score: ${previousScore}%`
     };
-    var btn = document.createElement("button");   // make button
-    btn.id = "start-quiz";
-    btn.innerHTML = "Start Quiz";
-    btn.onclick = handleNewQuestion;
+    var btn = document.createElement("button");                      // make a button. This is a local var, can reuse btn
+    btn.id = "start-quiz";                                           //assign it an ID
+    btn.innerHTML = "Start Quiz";                                    //set what btn will display
+    btn.onclick = handleNewQuestion;                                 // you don't want to call the function (), just assign it
     quizDiv.replaceChildren(prevScoreEl, btn)
 };
     
@@ -88,46 +87,45 @@ function handleNewQuestion() {
     console.log("in handle new question")
     if (questionIndex >= questionsArr.length){
         endGame();
-        return          //everything after this line (in this function) shouldn't happen
+        return                                               //return stops everything after this line ffrom running (in this function only) 
     }
-    if (questionIndex === 0){   //if we're on the first question
-        quizDiv.innerHTML === ""  //what it's displaying
+    if (questionIndex === 0){                                //if we're on the first question
+        quizDiv.innerHTML === ""                             //display it
     }
-    currentQuestion = questionsArr[questionIndex]
+    currentQuestion = questionsArr[questionIndex]            //display the current questionIndex in the elements created in buildQuizHtml and start the counter
     buildQuizHtml();
     startCountdown();
 };
     
 function buildQuizHtml() {
-    var p = document.createElement("p");  //document.createElement(“p”) with question.question as innerHTML
-    p.innerHTML = currentQuestion.question;  //".question" comes from property in array
-    var innerDiv = document.createElement("div");   //document.createElement(“div") with id of “innerDiv”
-    innerDiv.id = "innerDiv";
-    for (i=0; i<currentQuestion.options.length; i++){
-        var option = currentQuestion.options[i];
-        var btn = document.createElement("button"); 
-        btn.value = option;                          //btn.value = <option> (this is hidden)
-        btn.innerHTML = option;                      //btn.innerHtml = <option> (this will be seen)
-        btn.onclick = handleAnswer;                //btn.onclick = handleAnswer
-        innerDiv.append(btn);                        //innerDiv.append(btn) 
+    var p = document.createElement("p");                     //make a "p"
+    p.innerHTML = currentQuestion.question;                  //display the question in the <p>. ".question" comes from the question property in the array
+    var innerDiv = document.createElement("div");            //make a div
+    innerDiv.id = "innerDiv";                                // give it an ID
+    for (i=0; i<currentQuestion.options.length; i++){        //loop over the questions in the array
+        var option = currentQuestion.options[i];             //option = the 4 answer choices for the selected question
+        var btn = document.createElement("button");          //for each option, make a btn with the following properties
+        btn.value = option;                                  //(this is hidden)
+        btn.innerHTML = option;                              //(this will be seen)
+        btn.onclick = handleAnswer;                          //don't call function, just assign it to onclick
+        innerDiv.append(btn);                                //append the btns to the div
     }
-    //Loop over options: for each option let btn = document.createElement(“button”)
-    var localtimerEl = document.createElement("p");   //Once all buttons are created and appended to innerDiv, document.
-    localtimerEl.id = "timer"                         //createElement(“p”) with id=”timer”
-    quizDiv.replaceChildren(p, innerDiv, localtimerEl);
+    var localtimerEl = document.createElement("p");          //once all buttons are created and appended, make a "p"
+    localtimerEl.id = "timer"                                //give it an ID
+    quizDiv.replaceChildren(p, innerDiv, localtimerEl);      //swap out the elements
 };
 
 function startCountdown() {
-    var secondsRemaining = 30;               //let secondsRemaining = 30
-    var localTimerEl_2 = document.getElementById("timer");   //Get the <p> element we just created that will hold the current = timer value and set it to 30
-    localTimerEl_2.innerHTML = secondsRemaining;   //display the seconds remaining
-    intervalId = setInterval(function() {       //timerId = setInterval(()=>{
-        secondsRemaining--;                  //secondsRemaining --
-        localTimerEl_2.innerHTML = secondsRemaining;   //timer.innerHtml = secondsRemaining
-        if (secondsRemaining === 0){         //Check if secondsRemaining === 0, if yes handleTimerRunout()
+    var secondsRemaining = 30;                               //let secondsRemaining = 30
+    var localTimerEl_2 = document.getElementById("timer");   //Get the "p" element we just created that will hold the current = timer value and set it to 30
+    localTimerEl_2.innerHTML = secondsRemaining;             //display the seconds remaining
+    intervalId = setInterval(function() {                    //timerId = setInterval(()=>{
+        secondsRemaining--;                                  //decrease seconds
+        localTimerEl_2.innerHTML = secondsRemaining;         //display the secondsRemaining, again
+        if (secondsRemaining === 0){                         //Check if secondsRemaining === 0, if yes run timerRunout
             timerRunout();
         }
-    }, 1000);                                // }, 1000)
+    }, 1000);                                                // 1000 milliseconds = 1 sec
 };
     
 function timerRunout() {
